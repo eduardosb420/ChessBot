@@ -57,12 +57,33 @@ client.on('messageCreate', async (message) => {
                 await member.roles.remove(role)
             }
 
-            let role = guild.roles.cache.find(role => role.name === `Rating: ${rating}`)
+            let role = guild.roles.cache.find(role => role.name === `Rating: ${rating}`);
+
             if (!role) {
+                let color;
+                
+                switch (true) {
+                    case (rating < 1200): 
+                        color = '#4CAF50';
+                        break;
+                    case (rating >= 1200 && rating < 1600):
+                        color = '#FFB93E';
+                        break;
+                    case (rating >= 1600 && rating < 2200):
+                        color = '#FF6A2D';
+                        break;
+                    case (rating >= 2200):
+                        color = '#f64348';
+                        break;
+                    default:
+                        color = '#0000FF';
+                        break;
+                }
+            
                 role = await guild.roles.create({
                     name: `Rating: ${rating}`,
-                    color: '#0000FF',
-                })
+                    color: color,
+                });
             }
 
             await member.roles.add(role)
